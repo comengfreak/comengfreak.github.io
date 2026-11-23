@@ -16,8 +16,8 @@
   header img { width: 32px; height: 32px; border-radius: 8px; }
   h1 { font-size: 2rem; margin: 24px 0 4px; }
   .lead { color: var(--muted); margin: 0 0 16px; }
-  nav.months { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; position: sticky; top: 0; background: var(--bg); padding: 10px 0; border-bottom: 1px solid var(--line); }
-  nav.months a { text-decoration: none; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 0.85rem; color: var(--text); }
+  nav.months { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 8px; margin: 0 0 24px; position: sticky; top: 0; background: var(--bg); padding: 10px 0; border-bottom: 1px solid var(--line); }
+  nav.months a { flex: none; white-space: nowrap; text-decoration: none; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 0.85rem; color: var(--text); }
   h2 { font-size: 1.3rem; margin: 32px 0 12px; scroll-margin-top: 70px; }
   h2 span { color: var(--muted); font-size: 0.85rem; font-weight: 400; margin-left: 6px; }
   article { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin: 0 0 12px; }
