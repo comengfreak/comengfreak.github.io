@@ -91,6 +91,12 @@
   .btn:hover { transform: translateY(-2px); border-color: var(--accent); }
   .btn.primary { background: var(--accent); border-color: var(--accent); color: #04131c; }
   .btn svg { width: 20px; height: 20px; flex: none; }
+  .btn.soon { cursor: default; border-style: dashed; color: var(--muted); }
+  .btn.soon:hover { transform: none; border-color: var(--line); }
+  .btn.soon small {
+    font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--yellow); border: 1px solid rgba(255,190,0,.4); border-radius: 999px; padding: 2px 8px;
+  }
 
   .phone-stack { position: relative; height: 560px; }
   .phone {
@@ -196,6 +202,10 @@
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2.5v19a1 1 0 0 0 1.5.86l16-9.5a1 1 0 0 0 0-1.72l-16-9.5A1 1 0 0 0 4 2.5z"/></svg>
             Get it on Google Play
           </a>
+          <span class="btn soon" aria-label="Apple App Store, coming soon">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.7-1-2.7-4.1zM13.9 5c.7-.9 1.2-2 1.1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.1.1 2.3-.6 3-1.5z"/></svg>
+            App Store <small>Coming soon</small>
+          </span>
         </div>
       </div>
       <div class="phone-stack" aria-hidden="true">
