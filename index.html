@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>comengfreak · TransitAlert</title>
+<meta name="description" content="comengfreak: Melbourne train fan and the developer behind TransitAlert, live trains, trams, buses and V/Line.">
+<meta name="theme-color" content="#0b1120">
+<meta property="og:title" content="comengfreak · TransitAlert">
+<meta property="og:description" content="Live Melbourne trains, trams, buses and V/Line, with the details other apps leave out.">
+<meta property="og:image" content="https://comengfreak.github.io/img/og.jpg">
+<meta property="og:url" content="https://comengfreak.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0b1120;
+    --bg-2: #111a2e;
+    --card: #141e33;
+    --line: #22304d;
+    --text: #eef3fb;
+    --muted: #9fb0cc;
+    --accent: #16b4e8;
+    --pink: #f178af;
+    --yellow: #ffbe00;
+    --green: #1fa34a;
+    --purple: #8e44ad;
+    --red: #e0383e;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+  /* Rail stripes: Melbourne line colours */
+  .rails { display: flex; flex-direction: column; gap: 5px; }
+  .rails span { display: block; height: 5px; border-radius: 3px; }
+  .rails span:nth-child(1) { background: var(--accent); }
+  .rails span:nth-child(2) { background: var(--pink); }
+  .rails span:nth-child(3) { background: var(--yellow); }
+  .rails span:nth-child(4) { background: var(--green); }
+  .rails span:nth-child(5) { background: var(--purple); }
+
+  /* Header */
+  header { padding: 22px 0; }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; }
+  .brand img { width: 34px; height: 34px; border-radius: 9px; }
+  nav { display: flex; gap: 20px; font-size: 15px; color: var(--muted); }
+  nav a { text-decoration: none; }
+  nav a:hover { color: var(--text); }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    padding: 56px 0 72px;
+    background:
+      radial-gradient(900px 480px at 75% 20%, rgba(22,180,232,.18), transparent 70%),
+      radial-gradient(700px 420px at 10% 90%, rgba(241,120,175,.12), transparent 70%);
+  }
+  .hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px;
+    background: rgba(20,30,51,.7); color: var(--muted);
+    font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  }
+  .pill i { width: 8px; height: 8px; border-radius: 50%; background: #33d17a; box-shadow: 0 0 0 4px rgba(51,209,122,.18); }
+  h1 { font-size: clamp(38px, 6vw, 64px); line-height: 1.04; letter-spacing: -.03em; margin: 18px 0 16px; font-weight: 800; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .lead { font-size: 19px; color: var(--muted); max-width: 34ch; margin: 0 0 28px; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 13px 20px; border-radius: 12px; font-weight: 600; text-decoration: none;
+    border: 1px solid var(--line); background: var(--card);
+    transition: transform .15s ease, border-color .15s ease;
+  }
+  .btn:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #04131c; }
+  .btn svg { width: 20px; height: 20px; flex: none; }
+
+  .phone-stack { position: relative; height: 560px; }
+  .phone {
+    position: absolute; width: 260px; border-radius: 30px; overflow: hidden;
+    border: 6px solid #1c2740; background: #000;
+    box-shadow: 0 30px 80px rgba(0,0,0,.55);
+  }
+  .phone img { display: block; width: 100%; height: auto; }
+  .phone.a { left: 50%; top: 0; transform: translateX(-30%) rotate(4deg); z-index: 2; }
+  .phone.b { left: 50%; top: 60px; transform: translateX(-95%) rotate(-6deg); opacity: .9; }
+
+  /* Sections */
+  section { padding: 80px 0; }
+  .eyebrow { color: var(--accent); font-weight: 700; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 10px; }
+  h2 { font-size: clamp(28px, 4vw, 42px); line-height: 1.1; letter-spacing: -.02em; margin: 0 0 14px; }
+  .sub { color: var(--muted); font-size: 18px; max-width: 60ch; margin: 0 0 40px; }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .card {
+    background: linear-gradient(180deg, var(--card), var(--bg-2));
+    border: 1px solid var(--line); border-radius: 18px; padding: 24px;
+  }
+  .card .ico { font-size: 26px; line-height: 1; margin-bottom: 14px; }
+  .card h3 { margin: 0 0 8px; font-size: 18px; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  /* Screenshot rail */
+  .shots {
+    display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory;
+    padding: 6px 20px 24px; margin: 0 -20px;
+    scrollbar-width: thin; scrollbar-color: var(--line) transparent;
+  }
+  .shots figure { margin: 0; flex: 0 0 220px; scroll-snap-align: start; }
+  .shots img {
+    width: 100%; height: auto; display: block; border-radius: 22px;
+    border: 1px solid var(--line); box-shadow: 0 16px 40px rgba(0,0,0,.4);
+  }
+  .shots figcaption { color: var(--muted); font-size: 14px; text-align: center; margin-top: 10px; }
+
+  /* About */
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .stat { border: 1px solid var(--line); border-radius: 16px; padding: 20px; background: var(--card); }
+  .stat b { display: block; font-size: 26px; letter-spacing: -.02em; }
+  .stat span { color: var(--muted); font-size: 14px; }
+
+  .links { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  footer { border-top: 1px solid var(--line); padding: 32px 0 44px; color: var(--muted); font-size: 13px; }
+  footer p { margin: 14px 0 0; max-width: 80ch; }
+
+  @media (max-width: 880px) {
+    .hero .wrap, .about { grid-template-columns: 1fr; }
+    .phone-stack { height: 470px; }
+    .phone { width: 220px; }
+    .grid { grid-template-columns: 1fr 1fr; }
+    nav { display: none; }
+  }
+  @media (max-width: 560px) {
+    .wrap { padding: 0 16px; }
+    .hero { padding: 28px 0 48px; }
+    .grid { grid-template-columns: 1fr; }
+    .phone-stack { height: 400px; }
+    .phone { width: 185px; border-width: 5px; border-radius: 24px; }
+    .shots { padding: 6px 16px 24px; margin: 0 -16px; }
+    .shots figure { flex-basis: 180px; }
+    section { padding: 56px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="rails" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="img/icon.png" alt=""> comengfreak</a>
+    <nav aria-label="Sections">
+      <a href="#app">TransitAlert</a>
+      <a href="#screens">Screens</a>
+      <a href="#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <span class="pill"><i></i> Live Melbourne data</span>
+        <h1>Every train, tram and bus, <em>live.</em></h1>
+        <p class="lead">I'm comengfreak, a Melbourne train fan. I build TransitAlert, the app that shows the details other transport apps leave out.</p>
+        <div class="ctas">
+          <a class="btn primary" href="https://transit-alert.com">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
+            Open the web app
+          </a>
+          <a class="btn" href="https://play.google.com/store/apps/details?id=app.floot.u444d0d60f01f4a67a474ba6f61aabb9f">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2.5v19a1 1 0 0 0 1.5.86l16-9.5a1 1 0 0 0 0-1.72l-16-9.5A1 1 0 0 0 4 2.5z"/></svg>
+            Get it on Google Play
+          </a>
+        </div>
+      </div>
+      <div class="phone-stack" aria-hidden="true">
+        <div class="phone b"><img src="img/station.webp" alt="" width="540" height="960"></div>
+        <div class="phone a"><img src="img/map.webp" alt="" width="540" height="960"></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="app">
+    <div class="wrap">
+      <p class="eyebrow">TransitAlert</p>
+      <h2>Melbourne transport, properly.</h2>
+      <p class="sub">Metro trains, trams, buses, V/Line and coaches on one live map, with departure boards that tell the truth and alerts that follow the real train.</p>
+      <div class="grid">
+        <div class="card"><div class="ico">🗺️</div><h3>Every vehicle, live</h3><p>Every service on one map, with how late it's running and every stop to come.</p></div>
+        <div class="card"><div class="ico">🚉</div><h3>Honest departure boards</h3><p>Platforms, express runs, cancellations, and where the train is really going next.</p></div>
+        <div class="card"><div class="ico">🚌</div><h3>Buses and trams in detail</h3><p>Operator, fleet number, rego and model, tram class, and interchange bays.</p></div>
+        <div class="card"><div class="ico">🔔</div><h3>Alerts that follow the train</h3><p>A late train reminds you later. Saved trips warn you about delays and platform changes.</p></div>
+        <div class="card"><div class="ico">🧭</div><h3>Trips you can trust</h3><p>One planner for every mode, with a plan B if you miss it and myki fares.</p></div>
+        <div class="card"><div class="ico">🚆</div><h3>Made for train fans</h3><p>Live fleet tracking, history and stabling, favourites, heritage runs and Station Passport.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screens" style="padding-top:0">
+    <div class="wrap">
+      <p class="eyebrow">Screens</p>
+      <h2>Have a look.</h2>
+      <p class="sub">Swipe through the app. Everything here is real, live Melbourne data.</p>
+      <div class="shots" tabindex="0" aria-label="App screenshots">
+        <figure><img src="img/map.webp" alt="Live map of Melbourne with trains, trams and buses" width="540" height="960" loading="lazy"><figcaption>Live map</figcaption></figure>
+        <figure><img src="img/station.webp" alt="Station departure board" width="540" height="960" loading="lazy"><figcaption>Departure boards</figcaption></figure>
+        <figure><img src="img/bus.webp" alt="Bus details with fleet number and model" width="540" height="960" loading="lazy"><figcaption>Bus details</figcaption></figure>
+        <figure><img src="img/alerts.webp" alt="Disruption alerts" width="540" height="960" loading="lazy"><figcaption>Alerts</figcaption></figure>
+        <figure><img src="img/journey.webp" alt="Trip planner" width="540" height="960" loading="lazy"><figcaption>Trip planner</figcaption></figure>
+        <figure><img src="img/glance.webp" alt="Glance view of nearby departures" width="540" height="960" loading="lazy"><figcaption>At a glance</figcaption></figure>
+        <figure><img src="img/delays.webp" alt="Delays ranked by line" width="540" height="960" loading="lazy"><figcaption>Delays</figcaption></figure>
+        <figure><img src="img/fleet.webp" alt="Fleet tracking" width="540" height="960" loading="lazy"><figcaption>Fleet</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" style="padding-top:0">
+    <div class="wrap about">
+      <div>
+        <p class="eyebrow">About</p>
+        <h2>Hey, I'm comengfreak 🚆</h2>
+        <p class="sub" style="margin-bottom:24px">A Melbourne train fan and spotter. I wanted a transport app that showed the actual train coming in, so I built one. Updates ship almost every day.</p>
+        <div class="links">
+          <a class="btn" href="https://www.instagram.com/comengfreak/">Instagram @comengfreak</a>
+          <a class="btn" href="https://www.instagram.com/transit.alert/">Instagram @transit.alert</a>
+          <a class="btn" href="https://github.com/comengfreak/TransitAlert">TransitAlert on GitHub</a>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>4 modes</b><span>Trains, trams, buses and V/Line</span></div>
+        <div class="stat"><b>Live</b><span>Real-time positions and delays</span></div>
+        <div class="stat"><b>Free</b><span>One-off Premium, never a subscription</span></div>
+        <div class="stat"><b>2 languages</b><span>English and 简体中文</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="rails" aria-hidden="true" style="max-width:180px"><span></span><span></span><span></span><span></span><span></span></div>
+    <p>TransitAlert is an independent, unofficial app. It is not affiliated with PTV, Transport Victoria, Metro Trains Melbourne, Yarra Trams or V/Line. Data: Transport Victoria open data (CC BY 4.0).</p>
+    <p>© 2026 comengfreak</p>
+  </div>
+</footer>
+
+</body>
+</html>
